@@ -131,6 +131,8 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("message",message);
 
         reference.child("Chats").push().setValue(hashMap);
+
+
     }
 
     private void receiveMessages(final String myid, final String userid, final String imageurl){
