@@ -1,6 +1,7 @@
 package com.hamzaazam.i160163_160206.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.hamzaazam.i160163_160206.MessageActivity;
 import com.hamzaazam.i160163_160206.R;
 import com.hamzaazam.i160163_160206.User;
 
@@ -35,7 +37,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User user=mUsers.get(position);
+        final User user=mUsers.get(position);
         holder.userName.setText(user.getUsername());
         if(user.getImageURL().equals("default")){
             holder.profileImage.setImageResource(R.mipmap.ic_launcher);
@@ -43,8 +45,17 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         else{
             Glide.with(mContext).load(user.getImageURL()).into(holder.profileImage);
             //Picasso.get().load(user.getImageURL()).fit().centerCrop().into(holder.profileImage);
-
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mContext, MessageActivity.class);
+                intent.putExtra("userid",user.getId());
+                mContext.startActivity(intent);
+
+            }
+        });
     }
 
     @Override
