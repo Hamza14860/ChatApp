@@ -50,6 +50,10 @@ public class MessageActivity extends AppCompatActivity {
     RecyclerView recyclerViewMessage;
     //////////
 
+    /////seen message
+    ValueEventListener seenListener;
+    //////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +114,7 @@ public class MessageActivity extends AppCompatActivity {
                     profileImage.setImageResource(R.mipmap.ic_launcher);
                 }
                 else{
-                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profileImage);
+                    Glide.with(getApplicationContext()).load(user.getImageURL()).into(profileImage);
                 }
                 receiveMessages(fUser.getUid(), userID, user.getImageURL());
             }
@@ -121,6 +125,34 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        seenMessage(userID);
+
+    }
+
+    ///seen message
+    private void seenMessage(final String userid){
+        reference=FirebaseDatabase.getInstance().getReference("Chats");
+
+        seenListener=reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Chat chat=snapshot.getValue(Chat.class);
+
+                    if(chat.getReceiver().equals(fUser.getUid()) && chat.getSender().equals(userid)){
+                        HashMap <String, Object> hashMap=new HashMap<>();
+                        hashMap.put("isseen",true);
+
+                        snapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void sendMessage(String sender, String receiver, String message){
@@ -130,6 +162,8 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("sender",sender);
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
+        hashMap.put("isseen",false);
+
 
         reference.child("Chats").push().setValue(hashMap);
 
@@ -183,6 +217,10 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        ///
+        reference.removeEventListener(seenListener);
+        ///
         status("offline");
     }
 }

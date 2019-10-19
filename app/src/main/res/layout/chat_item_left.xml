@@ -21,4 +21,12 @@
         android:textSize="18sp"
         android:id="@+id/showMessage"
         android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSeen"
+        android:visibility="gone"
+        android:layout_below="@id/showMessage"/>
+
 </RelativeLayout>

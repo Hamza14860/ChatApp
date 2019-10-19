@@ -73,7 +73,6 @@ public class Main2Activity extends AppCompatActivity {
                     profileImage.setImageResource(R.mipmap.ic_launcher);
                 }
                 else{
-                    //Glide.with(Main2Activity.this).load(loggedUser.getImageURL()).into(profileImage);
                     Glide.with(getApplicationContext()).load(loggedUser.getImageURL()).into(profileImage);
 
                 }
