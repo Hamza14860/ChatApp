@@ -40,7 +40,8 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 android:id="@+id/tvUsername"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:layout_marginBottom="20dp"/>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
