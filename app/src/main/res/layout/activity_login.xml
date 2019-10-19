@@ -53,6 +53,17 @@
             android:textColor="#fff"
             android:layout_marginTop="10dp"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Forgot Password?"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:textStyle="italic"
+            android:id="@+id/forgetPassword"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 </RelativeLayout>
