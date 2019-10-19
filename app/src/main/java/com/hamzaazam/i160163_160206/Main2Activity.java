@@ -73,7 +73,9 @@ public class Main2Activity extends AppCompatActivity {
                     profileImage.setImageResource(R.mipmap.ic_launcher);
                 }
                 else{
-                    Glide.with(Main2Activity.this).load(loggedUser.getImageURL()).into(profileImage);
+                    //Glide.with(Main2Activity.this).load(loggedUser.getImageURL()).into(profileImage);
+                    Glide.with(getApplicationContext()).load(loggedUser.getImageURL()).into(profileImage);
+
                 }
             }
 
@@ -110,8 +112,8 @@ public class Main2Activity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.logoutItem:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Main2Activity.this,MainActivity.class));
-                finish();
+                startActivity(new Intent(Main2Activity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                //finish();
                 return true;
         }
         return false;
@@ -150,4 +152,23 @@ public class Main2Activity extends AppCompatActivity {
         }
     }
 
+    private void status(String status){
+        reference=FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        HashMap<String ,Object>hashMap=new HashMap<>();
+        hashMap.put("status",status);
+
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
 }

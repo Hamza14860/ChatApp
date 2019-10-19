@@ -23,9 +23,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     private Context mContext;
     private List<User> mUsers;
 
-    public UserAdapter(Context context, List<User> usersList){
+    private boolean ischat;
+    public UserAdapter(Context context, List<User> usersList, boolean ischat){
         this.mContext=context;
         this.mUsers=usersList;
+        this.ischat=ischat;
     }
 
     @NonNull
@@ -47,6 +49,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             //Picasso.get().load(user.getImageURL()).fit().centerCrop().into(holder.profileImage);
         }
 
+        ////status updating
+        if (ischat){
+            if(user.getStatus().equals("online")){
+                holder.img_on.setVisibility(View.VISIBLE);
+                holder.img_off.setVisibility(View.GONE);
+            }
+            else{
+                holder.img_on.setVisibility(View.GONE);
+                holder.img_off.setVisibility(View.VISIBLE);
+            }
+        }
+        else{
+            holder.img_on.setVisibility(View.GONE);
+            holder.img_off.setVisibility(View.GONE);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,12 +84,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public class UserViewHolder extends RecyclerView.ViewHolder{
         public ImageView profileImage;
         public TextView userName;
+        private ImageView img_on;
+        private ImageView img_off;
+
 
         public UserViewHolder( View itemView) {
             super(itemView);
 
             userName=itemView.findViewById(R.id.usernameItem);
             profileImage=itemView.findViewById(R.id.profileImageItem);
+            img_on=itemView.findViewById(R.id.img_on);
+            img_off=itemView.findViewById(R.id.img_off);
+
         }
     }
 }
