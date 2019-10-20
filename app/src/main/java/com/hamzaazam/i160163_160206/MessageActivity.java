@@ -53,6 +53,7 @@ public class MessageActivity extends AppCompatActivity {
     /////seen message
     ValueEventListener seenListener;
     //////
+    String userid_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,10 @@ public class MessageActivity extends AppCompatActivity {
         messageSend=findViewById(R.id.txtSend);
 
         intent=getIntent();
+        /////////
         final String userID=intent.getStringExtra("userid");
+        userid_=userID;
+        //////////
 
         fUser= FirebaseAuth.getInstance().getCurrentUser();
 
@@ -166,6 +170,26 @@ public class MessageActivity extends AppCompatActivity {
 
 
         reference.child("Chats").push().setValue(hashMap);
+
+        //Add user to chat fragment
+        final DatabaseReference chatref=FirebaseDatabase.getInstance().getReference("Chatlist")
+                .child(fUser.getUid())
+                .child(userid_);
+
+        chatref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    chatref.child("id").setValue(userid_);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        ////
 
 
     }

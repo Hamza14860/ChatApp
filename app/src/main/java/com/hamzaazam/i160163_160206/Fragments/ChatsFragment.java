@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hamzaazam.i160163_160206.Adapter.UserAdapter;
 import com.hamzaazam.i160163_160206.Chat;
+import com.hamzaazam.i160163_160206.Chatlist;
 import com.hamzaazam.i160163_160206.R;
 import com.hamzaazam.i160163_160206.User;
 
@@ -42,7 +44,8 @@ public class ChatsFragment extends Fragment {
     FirebaseUser fuser;
     DatabaseReference reference;
 
-    List<String> usersList;
+    //List<String> usersList;
+    List<Chatlist> usersList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,61 +60,50 @@ public class ChatsFragment extends Fragment {
 
         usersList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
-        ///////
-        //commented code was here
-        ////////
+        ////////////new code
+        reference = FirebaseDatabase.getInstance().getReference("Chatlist").child(fuser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
                 usersList.clear();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    Chatlist chatlist=snapshot.getValue(Chatlist.class);
+                    usersList.add(chatlist);
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                    Chat chat = snapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if (chat.getSender().equals(fuser.getUid())) {
-                        usersList.add(chat.getReceiver());
-                    }
-
-                    if (chat.getReceiver().equals(fuser.getUid())) {
-                        usersList.add(chat.getSender());
-                    }
+                    chatList();
                 }
-
-                Set<String> hashSet = new HashSet<String>(usersList);
-                usersList.clear();
-                usersList.addAll(hashSet);
-
-                readChats();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
+
+
         return view;
     }
-    private void readChats() {
-        mUsers = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+
+    //////new code
+    private void chatList(){
+        mUsers=new ArrayList<>();
+        reference=FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //mUsers.clear();
+                mUsers.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    for (String id : usersList) {
-                        assert user != null;
-                        if (user.getId().equals(id)) {
+                    for (Chatlist chatlist: usersList) {
+                        if (user.getId().equals(chatlist.getId())) {
                             mUsers.add(user);
                         }
                     }
-
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers,true);
+                userAdapter=new UserAdapter(getContext(),mUsers,true);
                 recyclerViewChat.setAdapter(userAdapter);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -119,88 +111,3 @@ public class ChatsFragment extends Fragment {
         });
     }
 }
-
-
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                usersList.clear();
-//                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-//                    Chat chat=snapshot.getValue(Chat.class);
-//
-//                    if(chat.getSender().equals(fuser.getUid())){
-//                        usersList.add(chat.getReceiver());
-//                    }
-//                    if(chat.getReceiver().equals(fuser.getUid())){
-//                        usersList.add(chat.getSender());
-//                    }
-//
-//                }
-//
-//                readChats();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        return view;
-//    }
-//
-//    private void readChats(){
-//
-//        mUsers=new ArrayList<>();
-//
-//        reference=FirebaseDatabase.getInstance().getReference("Users");
-//
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                mUsers.clear();
-//
-//                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-//                    User user=snapshot.getValue(User.class);
-//
-//
-//                    //Display one user from chats
-//                    for (String id: usersList){
-//                        if(user.getId().equals(id)){
-//                            if(mUsers.size()!=0){
-////                                for (User user1: mUsers){
-////                                    if(!user.getId().equals(user1.getId())){
-////                                        mUsers.add(user);//Causes concurrent modification error
-////                                    }
-////                                }
-////
-//                                /////////
-//                                for (int i = 0; i< mUsers.size(); i++) {
-//                                    User userModel1 = mUsers.get(i);
-//                                    if (!user.getId().equals(userModel1.getId())){
-//                                        mUsers.add(user);
-//                                        Log.d("DataAdded",user.getId());
-//                                    } // If the existing list don't have same value for sender and reciever
-//                                }
-//                                ////////
-//
-//                            }
-//                            else{
-//                                Log.e("user addedE",user.getUsername());
-//                                mUsers.add(user);
-//                            }
-//                        }
-//                    }
-//                }
-//                userAdapter=new UserAdapter(getContext(),mUsers);
-//                recyclerViewChat.setAdapter(userAdapter);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
-//
