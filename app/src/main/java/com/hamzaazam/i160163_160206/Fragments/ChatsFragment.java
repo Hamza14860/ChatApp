@@ -22,9 +22,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.hamzaazam.i160163_160206.Adapter.UserAdapter;
 import com.hamzaazam.i160163_160206.Chat;
 import com.hamzaazam.i160163_160206.Chatlist;
+import com.hamzaazam.i160163_160206.Notifications.Token;
 import com.hamzaazam.i160163_160206.R;
 import com.hamzaazam.i160163_160206.User;
 
@@ -80,8 +82,17 @@ public class ChatsFragment extends Fragment {
             }
         });
 
+        updateToken(FirebaseInstanceId.getInstance().getToken());
 
         return view;
+    }
+
+    //notification token
+    private void updateToken(String token){
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1=new Token(token);
+        reference.child(fuser.getUid()).setValue(token1);
+
     }
 
     //////new code
@@ -110,4 +121,6 @@ public class ChatsFragment extends Fragment {
             }
         });
     }
+
+
 }
