@@ -50,4 +50,16 @@
         android:layout_toEndOf="@id/profileImageItem"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/lastMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameItem"
+        android:layout_toRightOf="@id/profileImageItem"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="20dp"
+        android:maxLines="1"
+        android:textColor="@color/colorPrimaryDark"/>
+
 </RelativeLayout>
