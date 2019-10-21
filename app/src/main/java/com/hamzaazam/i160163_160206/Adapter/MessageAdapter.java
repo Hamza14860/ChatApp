@@ -2,11 +2,13 @@ package com.hamzaazam.i160163_160206.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,10 +34,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     FirebaseUser fuser;
 
-    public MessageAdapter(Context context, List<Chat> mChat, String imageurl){
+    /////upload image url
+    private String msgImgURL;
+    ////
+
+    public MessageAdapter(Context context, List<Chat> mChat, String imageurl, String msgImgURL){
         this.mContext=context;
         this.mChat=mChat;
         this.imageurl=imageurl;
+        this.msgImgURL=msgImgURL;
     }
 
     @NonNull
@@ -64,6 +71,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             Glide.with(mContext).load(imageurl).into(holder.profileImage);
         }
 
+        ////
+        Log.e("MSG IMG",chat.getMsgImageURL()+" . ");
+        if(chat.getMsgImageURL()==null || chat.getMsgImageURL().equals("noImage")){
+            holder.msgImg.setVisibility(View.GONE);
+        }
+        else{
+            holder.msgImg.setVisibility(View.VISIBLE);
+            //Toast.makeText(mContext,"image sent or received",Toast.LENGTH_SHORT).show();//
+            Glide.with(mContext).load(chat.getMsgImageURL()).into(holder.msgImg);
+        }
+        ////
+
         //message seen conditions
         if(position==mChat.size()-1){
             if(chat.isIsseen()){
@@ -89,6 +108,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public TextView showMessage;
         public TextView txtSeen;
 
+        ///
+        public ImageView msgImg;
+        ///
+
         public MessageViewHolder( View itemView) {
             super(itemView);
 
@@ -96,6 +119,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             profileImage=itemView.findViewById(R.id.profileImage);
 
             txtSeen=itemView.findViewById(R.id.txtSeen);
+
+
+            msgImg=itemView.findViewById(R.id.msgImg);
+
+
         }
     }
 

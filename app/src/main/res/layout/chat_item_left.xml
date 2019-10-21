@@ -29,4 +29,16 @@
         android:visibility="gone"
         android:layout_below="@id/showMessage"/>
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/msgImg"
+        android:layout_below="@id/showMessage"
+        android:layout_toRightOf="@id/profileImage"
+        android:layout_marginTop="3dp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:padding="3dp"
+        android:background="#fff"/>
+
 </RelativeLayout>

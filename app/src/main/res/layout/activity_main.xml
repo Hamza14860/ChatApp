@@ -1,32 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/backwall2"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FAST-CHAT "
-        android:textSize="35sp"
         android:textColor="#fff"
-        android:textStyle="bold|italic" />
+
+        android:textSize="35sp"
+        android:textStyle="bold|italic"
+        android:id="@+id/titleApp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/loginM"
         android:layout_marginTop="100dp"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="#fff"
+        android:background="@drawable/mybutton"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        android:layout_below="@id/titleApp"
+        />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:id="@+id/registerM"
-        android:text="Register" />
-</LinearLayout>
+        android:text="Register"
+        android:background="@drawable/mybutton"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#fff"
+        android:layout_below="@id/loginM"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lamda-Tech"
+        android:textSize="10dp"
+        android:textColor="#fff"
+        android:textStyle="italic"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:layout_marginRight="3dp"
+        android:id="@+id/labdaTech"
+        />
+
+
+</RelativeLayout>

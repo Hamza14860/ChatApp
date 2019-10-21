@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e6e6e6"
     tools:context=".LoginActivity">
 
     <include
@@ -49,9 +50,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnLogin"
             android:text="Login"
-            android:background="@color/colorPrimaryDark"
             android:textColor="#fff"
             android:layout_marginTop="10dp"
+            android:background="@drawable/mybutton"
             />
 
         <TextView

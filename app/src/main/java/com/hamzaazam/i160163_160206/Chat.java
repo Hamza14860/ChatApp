@@ -7,6 +7,8 @@ public class Chat {
     private String message;
     private boolean isseen;
 
+    private String msgImageURL;
+
     public boolean isIsseen() {
         return isseen;
     }
@@ -39,11 +41,20 @@ public class Chat {
         this.message = message;
     }
 
+    public String getMsgImageURL() {
+        return msgImageURL;
+    }
+
+    public void setMsgImageURL(String msgImageURL) {
+        this.msgImageURL = msgImageURL;
+    }
+
     public Chat(){}
-    public Chat(String sender, String receiver, String message, boolean isseen) {
+    public Chat(String sender, String receiver, String message, boolean isseen, String msgImageURL) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.isseen=isseen;
+        this.msgImageURL=msgImageURL;
     }
 }

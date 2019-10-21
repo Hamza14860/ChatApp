@@ -6,15 +6,25 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +33,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.hamzaazam.i160163_160206.Adapter.MessageAdapter;
 import com.hamzaazam.i160163_160206.Fragments.APIService;
 import com.hamzaazam.i160163_160206.Notifications.Client;
@@ -72,6 +86,16 @@ public class MessageActivity extends AppCompatActivity {
     boolean notify=false;
     /////////
 
+    /////////////sharing image
+    ImageView msgImg;
+    Button btnUploadImg;
+    StorageReference storageReference;
+    private static final int IMAGE_REQUEST=1;
+    private Uri imageUri;
+    private StorageTask uploadTask;
+    String mUriTBU;
+    ///////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +130,7 @@ public class MessageActivity extends AppCompatActivity {
         sendBtn=findViewById(R.id.btnSend);
         messageSend=findViewById(R.id.txtSend);
 
+
         intent=getIntent();
         /////////
         final String userID=intent.getStringExtra("userid");
@@ -123,7 +148,8 @@ public class MessageActivity extends AppCompatActivity {
                 ////
                 String messageT=messageSend.getText().toString();
                 if(!messageT.equals("")){
-                    sendMessage(fUser.getUid(), userID,messageT);
+                    sendMessage(fUser.getUid(), userID, messageT, mUriTBU);
+
                 }
                 else {
                     Toast.makeText(MessageActivity.this,"Cant Send Empty Message",Toast.LENGTH_SHORT).show();
@@ -131,6 +157,21 @@ public class MessageActivity extends AppCompatActivity {
                 messageSend.setText("");
             }
         });
+
+
+
+        ///////upload image
+        btnUploadImg=findViewById(R.id.uploadImgg);
+        msgImg=findViewById(R.id.msgImg);
+        storageReference= FirebaseStorage.getInstance().getReference("uploads");
+
+        btnUploadImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadSelectImage();
+            }
+        });
+        /////////
 
         reference= FirebaseDatabase.getInstance().getReference("Users").child(userID);
 
@@ -145,7 +186,9 @@ public class MessageActivity extends AppCompatActivity {
                 else{
                     Glide.with(getApplicationContext()).load(user.getImageURL()).into(profileImage);
                 }
-                receiveMessages(fUser.getUid(), userID, user.getImageURL());
+
+
+                receiveMessages(fUser.getUid(), userID, user.getImageURL(),mUriTBU);
             }
 
             @Override
@@ -184,7 +227,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String sender, final String receiver, String message){
+    private void sendMessage(String sender, final String receiver, String message, String msgImgURL){
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference();
 
         HashMap<String,Object> hashMap=new HashMap<>();
@@ -192,6 +235,13 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
         hashMap.put("isseen",false);
+        if(msgImgURL==null || msgImgURL.equals("")){
+            hashMap.put("msgImageURL","noImage");
+        }
+        else{
+            //Toast.makeText(MessageActivity.this," Msg Send with Image",Toast.LENGTH_LONG).show();///
+            hashMap.put("msgImageURL",msgImgURL);
+        }
 
 
         reference.child("Chats").push().setValue(hashMap);
@@ -278,7 +328,7 @@ public class MessageActivity extends AppCompatActivity {
 
     }
 
-    private void receiveMessages(final String myid, final String userid, final String imageurl){
+    private void receiveMessages(final String myid, final String userid, final String imageurl, final String msgImgURL){
         mChat=new ArrayList<>();
 
         reference=FirebaseDatabase.getInstance().getReference("Chats");
@@ -294,8 +344,7 @@ public class MessageActivity extends AppCompatActivity {
                         mChat.add(chat);
 
                     }
-
-                    messageAdapter=new MessageAdapter(MessageActivity.this, mChat, imageurl);
+                    messageAdapter=new MessageAdapter(MessageActivity.this, mChat, imageurl,msgImgURL);
                     recyclerViewMessage.setAdapter(messageAdapter);
                 }
             }
@@ -331,4 +380,95 @@ public class MessageActivity extends AppCompatActivity {
         ///
         status("offline");
     }
+
+
+
+    /////////////upload image
+
+    private void uploadSelectImage(){
+
+        Intent imageIntent=new Intent();
+        imageIntent.setType("image/*");
+        imageIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(imageIntent,IMAGE_REQUEST);
+    }
+
+    private String getFileExtension(Uri uri){
+        ContentResolver contentResolver=MessageActivity.this.getContentResolver();
+        MimeTypeMap mimeTypeMap=MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadImage(){
+        final ProgressDialog pd=new ProgressDialog(MessageActivity.this);
+        pd.setMessage("Uploading");
+        pd.show();
+
+        if(imageUri!=null){
+            final StorageReference fileReference=storageReference.child(System.currentTimeMillis()+"."+getFileExtension(imageUri));
+            uploadTask=fileReference.putFile(imageUri);
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if(!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return fileReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if(task.isSuccessful()){
+                        Uri downloadUri=task.getResult();
+                        String mUri=downloadUri.toString();
+
+                        mUriTBU=mUri;
+
+                        //reference=FirebaseDatabase.getInstance().getReference("Chats").child(fuser.getUid());
+
+                        //HashMap <String ,Object>map =new HashMap<>();
+                        //map.put("imageURL",mUri);
+                        //reference.updateChildren(map);
+                        Toast.makeText(MessageActivity.this," Image Selected.. Write Text and Send",Toast.LENGTH_LONG).show();///
+
+                        pd.dismiss();
+                    }
+                    else {
+                        Toast.makeText(MessageActivity.this,"Failed..",Toast.LENGTH_SHORT).show();
+                        pd.dismiss();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MessageActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
+
+                }
+            });
+        }else{
+            Toast.makeText(MessageActivity.this,"No Image Selected..",Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==IMAGE_REQUEST && resultCode==RESULT_OK && data!=null && data.getData()!=null){
+            imageUri=data.getData();
+
+            if(uploadTask!=null && uploadTask.isInProgress()){
+                Toast.makeText(MessageActivity.this,"Uploading..",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                uploadImage();
+            }
+
+        }
+    }
+
+    //////////////////////
 }

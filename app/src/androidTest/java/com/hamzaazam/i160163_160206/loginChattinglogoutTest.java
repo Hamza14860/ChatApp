@@ -18,7 +18,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -32,13 +31,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class Login_Chatting_logoutTest {
+public class loginChattinglogoutTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void login_Chatting_logoutTest() {
+    public void loginChattinglogoutTest() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginM), withText("Login"),
                         childAtPosition(
@@ -77,37 +76,7 @@ public class Login_Chatting_logoutTest {
                                         1),
                                 2),
                         isDisplayed()));
-        materialEditText3.perform(replaceText("12312"), closeSoftKeyboard());
-
-        ViewInteraction materialEditText4 = onView(
-                allOf(withId(R.id.pass), withText("12312"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                2),
-                        isDisplayed()));
-        materialEditText4.perform(click());
-
-        ViewInteraction materialEditText5 = onView(
-                allOf(withId(R.id.pass), withText("12312"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                2),
-                        isDisplayed()));
-        materialEditText5.perform(replaceText("123123"));
-
-        ViewInteraction materialEditText6 = onView(
-                allOf(withId(R.id.pass), withText("123123"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        1),
-                                2),
-                        isDisplayed()));
-        materialEditText6.perform(closeSoftKeyboard());
+        materialEditText3.perform(replaceText("123123"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.btnLogin), withText("Login"),
@@ -147,7 +116,7 @@ public class Login_Chatting_logoutTest {
                                                 2)),
                                 0),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Expresso "), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("A"), closeSoftKeyboard());
 
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.btnSend),
@@ -160,8 +129,6 @@ public class Login_Chatting_logoutTest {
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        pressBack();
-
         ViewInteraction appCompatImageButton2 = onView(
                 allOf(withContentDescription("Navigate up"),
                         childAtPosition(
@@ -172,47 +139,6 @@ public class Login_Chatting_logoutTest {
                                 2),
                         isDisplayed()));
         appCompatImageButton2.perform(click());
-
-        ViewInteraction relativeLayout2 = onView(
-                allOf(childAtPosition(
-                        allOf(withId(R.id.recyclerViewChats),
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        0)),
-                        3),
-                        isDisplayed()));
-        relativeLayout2.perform(click());
-
-        ViewInteraction appCompatImageButton3 = onView(
-                allOf(withContentDescription("Navigate up"),
-                        childAtPosition(
-                                allOf(withId(R.id.toolbar),
-                                        childAtPosition(
-                                                withId(R.id.barLayout),
-                                                0)),
-                                2),
-                        isDisplayed()));
-        appCompatImageButton3.perform(click());
-
-        ViewInteraction tabView = onView(
-                allOf(withContentDescription("Users"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tabLayout),
-                                        0),
-                                1),
-                        isDisplayed()));
-        tabView.perform(click());
-
-        ViewInteraction tabView2 = onView(
-                allOf(withContentDescription("Profile"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tabLayout),
-                                        0),
-                                2),
-                        isDisplayed()));
-        tabView2.perform(click());
 
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
