@@ -13,7 +13,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.RotateAnimation;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,7 @@ public class ProfileFragment extends Fragment {
     private Uri imageUri;
     private StorageTask uploadTask;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class ProfileFragment extends Fragment {
                     profileUsername.setText(user.getUsername());
 
                     if (user.getImageURL().equals("default")) {
-                        profileImage.setImageResource(R.drawable.ic_action_profile_photo);
+                        profileImage.setImageResource(R.mipmap.contact_photo_def);
                     } else {
 
                         Glide.with(getContext()).load(user.getImageURL()).into(profileImage);//error possibility
@@ -95,6 +98,8 @@ public class ProfileFragment extends Fragment {
                 openImage();
             }
         });
+
+
 
         return view;
     }

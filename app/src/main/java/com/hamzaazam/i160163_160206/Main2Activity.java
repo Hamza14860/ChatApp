@@ -70,7 +70,7 @@ public class Main2Activity extends AppCompatActivity {
                 userName.setText(loggedUser.getUsername());
 
                 if(loggedUser.getImageURL().equals("default")){
-                    profileImage.setImageResource(R.mipmap.ic_launcher);
+                    profileImage.setImageResource(R.mipmap.contact_photo_def);
                 }
                 else{
                     Glide.with(getApplicationContext()).load(loggedUser.getImageURL()).into(profileImage);

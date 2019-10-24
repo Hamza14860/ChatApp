@@ -4,67 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6"
+    android:background="@drawable/backwall3"
+
     tools:context=".LoginActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/bar_layout"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+
+    <androidx.cardview.widget.CardView
         android:orientation="vertical"
         android:layout_below="@id/toolbar"
         android:gravity="center_horizontal"
-        android:padding="16dp">
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:textSize="30sp"
-            android:textStyle="bold|italic"
+        app:cardElevation="6dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp">
 
-            />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/logoSignIn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@mipmap/login_logo"/>
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@id/logoSignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/email"
             android:inputType="textEmailAddress"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             app:met_floatingLabel="normal"
             android:hint="Email" />
+
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_below="@id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pass"
             android:inputType="textPassword"
             android:layout_marginTop="10dp"
             app:met_floatingLabel="normal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:hint="Password" />
 
         <Button
+            android:layout_below="@id/pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnLogin"
             android:text="Login"
             android:textColor="#fff"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:background="@drawable/mybutton"
             />
 
         <TextView
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Forgot Password?"
             android:layout_marginTop="10dp"
-            android:layout_gravity="end"
             android:textStyle="italic"
             android:id="@+id/forgetPassword"
             android:textColor="@color/colorPrimary"/>
-    </LinearLayout>
+
+    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

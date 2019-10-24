@@ -4,85 +4,111 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="0dp"
+    android:layout_margin="2dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:civ_border_width="10dp"
-        app:civ_border_color="#8F8E8E"
-        android:id="@+id/img_off"
-        android:src="@mipmap/ic_launcher"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        app:civ_border_width="10dp"
-        app:civ_border_color="#05df29"
-        android:id="@+id/img_on"
-        android:src="@mipmap/ic_launcher"
-        android:visibility="gone"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="3dp"
-        android:id="@+id/profileImageItem"
-        android:src="@mipmap/ic_launcher"/>
-
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:layout_width="15dp"-->
-<!--        android:layout_height="15dp"-->
-<!--        app:civ_border_width="10dp"-->
-<!--        app:civ_border_color="#05df29"-->
-<!--        android:id="@+id/img_on"-->
-<!--        android:src="@mipmap/ic_launcher"-->
-<!--        android:layout_below="@id/text_boxes"-->
-<!--        android:layout_marginTop="0dp"-->
-<!--        android:layout_marginLeft="-15dp"-->
-<!--        android:layout_toRightOf="@id/profileImageItem"-->
-<!--        android:layout_toEndOf="@id/profileImageItem"-->
-<!--        android:visibility="gone"/>-->
-
-<!--    <de.hdodenhof.circleimageview.CircleImageView-->
-<!--        android:layout_width="15dp"-->
-<!--        android:layout_height="15dp"-->
-<!--        app:civ_border_width="10dp"-->
-<!--        app:civ_border_color="#bfbfbf"-->
-<!--        android:id="@+id/img_off"-->
-<!--        android:src="@mipmap/ic_launcher"-->
-<!--        android:layout_below="@id/text_boxes"-->
-<!--        android:layout_marginTop="0dp"-->
-<!--        android:layout_marginLeft="-15dp"-->
-<!--        android:layout_toRightOf="@id/profileImageItem"-->
-<!--        android:layout_toEndOf="@id/profileImageItem"-->
-<!--        android:visibility="gone"/>-->
-
-    <LinearLayout
-        android:id="@+id/text_boxes"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/profileImageItem"
-        android:layout_toEndOf="@id/profileImageItem"
-        android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="3dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="0dp"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/usernameItem"
-            android:hint="Username"
-            android:textColor="#003b46"
-            android:textStyle="bold"
-            android:textSize="15dp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/lastMsg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12dp"
-            android:maxLines="1"/>
-    </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_off"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="5dp"
+                android:src="@mipmap/ic_launcher"
+                app:civ_border_color="#8F8E8E"
+                app:civ_border_width="10dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_on"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="5dp"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone"
+                app:civ_border_color="#05df29"
+                app:civ_border_width="10dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImageItem"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="3dp"
+                android:src="@mipmap/contact_photo_def" />
+
+            <!--    <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--        android:layout_width="15dp"-->
+            <!--        android:layout_height="15dp"-->
+            <!--        app:civ_border_width="10dp"-->
+            <!--        app:civ_border_color="#05df29"-->
+            <!--        android:id="@+id/img_on"-->
+            <!--        android:src="@mipmap/ic_launcher"-->
+            <!--        android:layout_below="@id/text_boxes"-->
+            <!--        android:layout_marginTop="0dp"-->
+            <!--        android:layout_marginLeft="-15dp"-->
+            <!--        android:layout_toRightOf="@id/profileImageItem"-->
+            <!--        android:layout_toEndOf="@id/profileImageItem"-->
+            <!--        android:visibility="gone"/>-->
+
+            <!--    <de.hdodenhof.circleimageview.CircleImageView-->
+            <!--        android:layout_width="15dp"-->
+            <!--        android:layout_height="15dp"-->
+            <!--        app:civ_border_width="10dp"-->
+            <!--        app:civ_border_color="#bfbfbf"-->
+            <!--        android:id="@+id/img_off"-->
+            <!--        android:src="@mipmap/ic_launcher"-->
+            <!--        android:layout_below="@id/text_boxes"-->
+            <!--        android:layout_marginTop="0dp"-->
+            <!--        android:layout_marginLeft="-15dp"-->
+            <!--        android:layout_toRightOf="@id/profileImageItem"-->
+            <!--        android:layout_toEndOf="@id/profileImageItem"-->
+            <!--        android:visibility="gone"/>-->
+
+
+            <LinearLayout
+                android:id="@+id/text_boxes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toEndOf="@id/profileImageItem"
+                android:layout_toRightOf="@+id/profileImageItem"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/usernameItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:textColor="#003b46"
+                    android:textSize="15dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/lastMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
 
-    TextView tvAbout;
+    ImageButton tvAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         registerButton=findViewById(R.id.registerM);
         loginButton=findViewById(R.id.loginM);
-        tvAbout=findViewById(R.id.labdaTech);
+        tvAbout=findViewById(R.id.btnAbout);
 
         tvAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this," Devs: Hamza, Wassi",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this," Devs: Hamza, Hammad, Huzaifa, Aleem",Toast.LENGTH_SHORT).show();
             }
         });
 

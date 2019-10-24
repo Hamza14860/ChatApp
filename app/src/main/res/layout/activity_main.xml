@@ -9,57 +9,67 @@
     android:background="@drawable/backwall2"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:id="@+id/appLogo"
+        android:src="@drawable/chat_app_icon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        />
+
     <TextView
+        android:id="@+id/titleApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FAST-CHAT "
-        android:textColor="#fff"
-
-        android:textSize="35sp"
-        android:textStyle="bold|italic"
-        android:id="@+id/titleApp"
+        android:layout_below="@id/appLogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="sans-serif"
+        android:text="FAST-CHAT "
+        android:textColor="#95E1FF"
+        android:textSize="30sp"
+        android:textStyle="bold|italic" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/loginM"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:text="Login"
         android:textColor="#fff"
         android:background="@drawable/mybutton"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
 
         android:layout_below="@id/titleApp"
         />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/registerM"
         android:text="Register"
         android:background="@drawable/mybutton"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:textColor="#fff"
         android:layout_below="@id/loginM"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lamda-Tech"
-        android:textSize="10dp"
-        android:textColor="#fff"
-        android:textStyle="italic"
-        android:background="@color/colorPrimaryDark"
+
+
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="3dp"
         android:layout_marginRight="3dp"
-        android:id="@+id/labdaTech"
+        android:id="@+id/btnAbout"
+        android:background="@mipmap/logo_transparent"
         />
 
 
